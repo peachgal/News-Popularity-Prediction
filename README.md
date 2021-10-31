@@ -1,37 +1,46 @@
-## Welcome to GitHub Pages
+## Predicting the Popularity of Online News
+Collaborative project between Ilana Feldman and Jasmine Wang.
 
-You can use the [editor on GitHub](https://github.com/peachgal/News-Popularity-Prediction/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+### 1. Purpose of the repo
+  
+The purpose of the repo is to use supervised machine learning methods (linear regressions, ensemble methods) to develop different predictive models that focus on predicting the popularity of online news articles given the features of those articles published on Mashable, one of the largest online news sites. Since the target response is a continuous variable, the number of shares, the predictive models are compared with their RMSE value when fitting on the test set. Then, the best predictive model is chosen with the lowest RMSE value when fitting on the test set. We declare a winning model in predicting the online news popularity measures. In addition, this process is automated to run the analysis, perform exploratory data analysis, fit different predictive models, compare different predictive models and find the optimal model for each of the data channels. The articles were collected from six data channels on Mashable: lifestyle, entertainment, business, social media, technology and world.  
+  
+### 2. A list of R packages used to generate the analyses
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+   * rmarkdown
+   * tidyverse
+   * knitr
+   * caret
+   * corrplot
+   * ggplot2
+   * gbm
+   * vip
 
-### Markdown
+### 3. Links to each of the generated analyses using automation
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+   * The analysis for [Lifestyle articles is available here](lifestyle.html)
+   * The analysis for [Entertainment articles is available here](entertainment.html)
+   * The analysis for [Business articles is available here](bus.html)
+   * The analysis for [Social Media articles is available here](socmed.html)
+   * The analysis for [Technology articles is available here](tech.html)
+   * The analysis for [World articles is available here](world.html)
 
-```markdown
-Syntax highlighted code block
+### 4. The render function used to create 6 analyses for the channels
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/peachgal/News-Popularity-Prediction/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```markdown  
+  library(rmarkdown)  
+  library(tidyverse)  
+  type <- c("lifestyle", "entertainment", "bus", "socmed", "tech", "world")  
+  output_file <- paste0(type, ".md")  
+  params <- lapply(type, FUN = function(x){list(channel = x)})  
+  reports <- tibble(output_file, params)  
+  
+  apply(reports, MARGIN = 1,  
+        FUN = function(x){  
+          render(input = "C:/Users/peach/Documents/ST558/ST558_repos/ST558-Project-2/_Rmd/ST558_project2_auto.Rmd",  
+                 output_format = "github_document",  
+                 output_file = paste0("C:/Users/peach/documents/ST558/ST558_repos/ST558-Project-2/", x[[1]]),  
+                 params = x[[2]],  
+                 output_options = list(html_preview = FALSE, toc = TRUE, toc_depth = 3, df_print = "tibble"))  
+        })  
+```  
